@@ -21,12 +21,11 @@
         </select>
         <a href="login.html" style="float: right;"><ins>เข้าสู่ระบบ</ins></a></form>
         <br>
-    <ul>
-        <li><a href="post.php?id=1"><ins>กระทู้1</ins></a></li>
-        <li><a href="post.php?id=2"><ins>กระทู้2</ins></a></li>
-        <li><a href="post.php?id=3"><ins>กระทู้3</ins></a></li>
-        <li><a href="post.php?id=4"><ins>กระทู้4</ins></a></li>
-        <li><a href="post.php?id=5"><ins>กระทู้5</ins></a></li>
-    </ul>
+        <ul>
+        <?php for($i=1;$i<=10;$i++){
+            echo "<li><a href=post.php?id=$i>กระทู้$i</a></li>";
+            }
+        ?>
+        </ul>
 </body>
 </html>

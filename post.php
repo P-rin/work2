@@ -11,6 +11,16 @@
     <hr>
     <div align="center">
         <?php echo "ต้องการดูกระทู้หมายเลข " . $_GET["id"];?>
+        <br>
+        <?php
+        $id=$_GET["id"];
+        if($id%2==0){
+            echo "เป็นกระทู้หมายเลขคู่";
+        }
+        else{
+            echo "เป็นกระทู้หมายเลขคี่";
+        }
+        ?>
         <p></p>
         <table style="border: 2px solid black ; width:40%;" align="center">
             <form>
@@ -19,7 +29,7 @@
             <tr align="center"><td><form><input type="submit" value="ส่งข้อความ"></form></td></tr>
             </form>
         </table>
-        <a href="index.html">กลับไปยังหน้าหลัก</a>
+        <a href="index.php">กลับไปยังหน้าหลัก</a>
     </div>
     
     

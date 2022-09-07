@@ -10,10 +10,21 @@
     <h1 style="text-align: center ;">web prin</h1>
     <hr>
     <div align="center">
-        เข้าสู่ระบบด้วย <br>
-        login = <?php echo $_POST["user"];?>
+        <?php
+            $name= $_POST["user"];
+            $pass=$_POST["pass"];
+            if ($name=="admin"&&$pass=="ad1234"){
+                echo "ยินดีต้อนรับคุณ ADMIN";
+            }
+            elseif ($name=="member"&&$pass=="mem1234"){
+                echo "ยินดีต้อนรับคุณ MEMBER";
+            }
+            else{
+                echo "ชื่อบัญชีหรือรหัสผ่านไม่ถูกต้อง";
+            }
+        ?>
         <br>
-        password = <?php echo $_POST["pass"];?>
+        <a href="index.php">กลับไปยังหน้าหลัก</a>
     </div>
     
 </body>
