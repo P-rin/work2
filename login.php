@@ -1,3 +1,8 @@
+<?php session_start();
+if(isset($_SESSION['id'])){
+    header("location:index.php");
+    die();
+} ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +22,7 @@
             <tr style="text-align:center"><td colspan="2" ><input type="submit" value="login"></td></tr>
         </form>
     </table>
-    <p style="text-align: center">ถ้ายังไม่ได้เป็นสมาชิก <a href="register.html"><ins>กรุณาสมัครสมาชิก</ins></a></p>
+    
+    <p style="text-align: center">ถ้ายังไม่ได้เป็นสมาชิก <a href="register.php"><ins>กรุณาสมัครสมาชิก</ins></a></p>
 </body>
 </html>
