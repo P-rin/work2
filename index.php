@@ -16,6 +16,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script>
+        function myFunction1(){
+            let r =confirm("ต้องการจะลบจริงหรือไม่");
+            return r;
+        }
+    </script>
 </head>
 <?php 
 if(!isset($_SESSION['id'])){
@@ -24,7 +30,13 @@ if(!isset($_SESSION['id'])){
     <div class="container">
     <h1 class="center"> web prin</h1>
     <?php include "nav.php"; ?>
-    <hr>
+    <br>
+    <?php 
+    if(isset($_SESSION['delete'])){
+        echo "<div class = 'alert alert-success'>ลบกระทู้เรียบร้อย</div>";
+        unset($_SESSION['delete']);
+    }
+    ?>
     <div class="d-flex">
         <div>
             <label>หมวดหมู่</label>
@@ -40,19 +52,29 @@ if(!isset($_SESSION['id'])){
             </span>
         </div>
     </div>
-        <br>
-        <table class="table table-striped">
-        <?php for($i=1;$i<=10;$i++){
-            echo "<tr><td><a href=post.php?id=$i style=text-decoration:none>กระทู้$i</a></td></tr>";
-            }
+    <br>
+    <table class="table table-striped">
+        <?php 
+        $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8","root","");
+        $sql1 = "SELECT * FROM post ORDER BY post_date desc";
+
+        foreach($conn->query($sql1) as $row){
+            $result2 = $conn->query("SELECT * FROM category where id = $row[cat_id]");
+            $data2=$result2->fetch(PDO::FETCH_ASSOC);
+            $result3 = $conn->query("SELECT * FROM user where id = $row[user_id]");
+            $data3=$result3->fetch(PDO::FETCH_ASSOC);
+
+    echo "<tr><td>[ $data2[name] ]<a href = post.php?id=$row[id] style=text-decoration:none> $row[title]</a><BR>$data3[name] - $row[post_date]</td></tr>";
+        }
+        $conn = null;
         ?>
         </table>
-    </div>
-        </body>
+        </div>
+</body>
         <?php } else{ ?>
                 <body>
                 <div class="container">
-                    <h1 class="center"> web prin</h1>
+                    <h1 class="center">web prin</h1>
                     <?php include "nav.php"; ?>
                     <br>
                     <div class="d-flex justify-content-between">
@@ -74,15 +96,27 @@ if(!isset($_SESSION['id'])){
                         </div>
                     </div>
                     <br>
-                    <table class="table table-stried">
+                    <table class="table table-striped">
                         <?php
-                            for($i = 1 ; $i <= 10 ; $i++){
-                                echo "<tr><td><a href = post.php?id=$i style=text-decoration:none>กระทู้$i</a></td>";
-                                if($_SESSION['role']=='a'){
-                                    echo "<td><a href = delete.php?id=$i class='btn btn-danger btn-sm'><i class='bi bi-trash'></i></a></td>";
+                            $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8","root","");
+
+                            $sql1 = "SELECT * FROM post ORDER BY post_date desc";
+                            $result1 = $conn->query($sql1);
+                
+                            foreach($conn->query($sql1) as $row){
+                                $result2 = $conn->query("SELECT * FROM category where id = $row[cat_id]");
+                                $data2=$result2->fetch(PDO::FETCH_ASSOC);
+                
+                                $result3 = $conn->query("SELECT * FROM user where id = $row[user_id]");
+                                $data3=$result3->fetch(PDO::FETCH_ASSOC);
+                
+                                echo "<tr><td>[ $data2[name] ]<a href = post.php?id=$row[id] style=text-decoration:none> $row[title]</a><BR>$data3[name] - $row[post_date]</td>";
+                                if($_SESSION['role'] == 'a'){
+                                    echo "<td><a href = delete.php?id=$row[id] class='btn btn-danger btn-sm mt-2' onclick='return myFunction1();'><i class='bi bi-trash'></i></a></td>";
                                 }
                                 echo "</tr>";
                             }
+                            $conn = null;
                         ?>
                     </table>
         </div>

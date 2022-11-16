@@ -1,31 +1,68 @@
-<?php session_start();
-if(!isset($_SESSION['id'])){
-    header("location:index.php");
-    die();
-} 
+<?php 
+    session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <style type="text/css">
+        .center{text-align: center;}
+    </style>
+    <title>ตั้งกระทู้ใหม่</title>
 </head>
 <body>
-    <h1 style="text-align: center ;">web prin</h1>
-    <hr>
-    <table align="center">
-            <form>
-            <tr><td><?php echo "ผู้ใช้ : $_SESSION[username]"; ?></td></tr>
-            <tr ><td>หมวดหมู่:</td><td><select name="menu">
-                <option value="all">--ทั้งหมด--</option>
-                <option value="nomal">เรื่องทั่วไป</option>
-                <option value="study">เรื่องเรียน</option></select></td></tr>
-            <tr ><td>หัวข้อ : </td><td><input type="text" name="text"></td></tr>
-            <tr ><td>เนื้อหา : </td><td><textarea name="ta"  cols="30" rows="10"></textarea></td></tr>
-            <tr><td></td><td><input type="submit" value="บันทึกข้อความ"></td></tr>
+<div class="container">
+    <h1 class="center">web prin</h1>
+    <?php include "nav.php"; ?>
+    <br>
+    <center>
+    <div class="card text-dark bg-white border-info col-lg-6">
+        <div class="card-header bg-info text-white">ตั้งกระทู้ใหม่</div>
+        <div class="card-body">
+            <form action="newpost_save.php" method="post">
+                <div class="row mb-3">
+                    <label class="col-lg-3 col-form-label">หมวดหมู่ :</label>
+                    <div class="col-lg-9">
+                        <select name="category" class="form-select">
+                            <?php
+                                $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8","root","");
+                                $sql = "SELECT * FROM category";
+                                foreach($conn->query($sql) as $row){
+                                    echo "<option value='$row[id]'>$row[name]</option>";
+                                }
+                                $conn = null;
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-lg-3 col-form-label">หัวข้อ :</label>
+                    <div class="col-lg-9">
+                        <input type="text" name="topic" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-lg-3 col-form-label">เนื้อหา :</label>
+                    <div class="col-lg-9">
+                        <textarea class="form-control" name="comment" rows="8" required></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <center>
+                            <button type="submit" class="btn btn-info btn-sm text-white"><i class="bi bi-caret-right-square"></i> บันทึกข้อความ</button>
+                        </center>
+                    </div>
+                </div>
             </form>
-        </table>
+        </div>
+    </div>
+    </center>
+    </div>
+</div>
 </body>
 </html>
